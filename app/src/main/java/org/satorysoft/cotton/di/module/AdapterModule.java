@@ -2,10 +2,7 @@ package org.satorysoft.cotton.di.module;
 
 import android.content.Context;
 
-import org.satorysoft.cotton.adapter.HighRiskApplicationsAdapter;
-import org.satorysoft.cotton.core.model.ScannedApplication;
-
-import java.util.List;
+import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,7 +19,7 @@ public class AdapterModule {
     }
 
     @Provides
-    public HighRiskApplicationsAdapter provideHighRiskAppsAdapter(){
-        return new HighRiskApplicationsAdapter(context);
+    public ApplicationRiskAdapter provideHighRiskAppsAdapter(){
+        return new ApplicationRiskAdapter(context);
     }
 }

@@ -19,8 +19,6 @@ import org.satorysoft.cotton.util.IDrawableStateManager;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,13 +29,13 @@ import butterknife.FindView;
 /**
  * Created by viacheslavokolitiy on 08.06.2015.
  */
-public class HighRiskApplicationsAdapter extends RecyclerView.Adapter<HighRiskApplicationsAdapter.AppListViewHolder>
+public class ApplicationRiskAdapter extends RecyclerView.Adapter<ApplicationRiskAdapter.AppListViewHolder>
     implements IDrawableStateManager {
     private List<ScannedApplication> scannedApplications = new ArrayList<>();
     private Context context;
 
     @Inject
-    public HighRiskApplicationsAdapter(Context context){
+    public ApplicationRiskAdapter(Context context){
         this.context = context;
     }
 

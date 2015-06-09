@@ -1,6 +1,6 @@
 package org.satorysoft.cotton.di.component;
 
-import org.satorysoft.cotton.adapter.HighRiskApplicationsAdapter;
+import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
 import org.satorysoft.cotton.di.module.AdapterModule;
 
 import javax.inject.Singleton;
@@ -13,5 +13,5 @@ import dagger.Component;
 @Component(modules = {AdapterModule.class})
 @Singleton
 public interface AdapterComponent {
-    HighRiskApplicationsAdapter getAdapter();
+    ApplicationRiskAdapter getAdapter();
 }

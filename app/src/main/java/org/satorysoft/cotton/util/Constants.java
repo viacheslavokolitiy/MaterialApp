@@ -18,8 +18,10 @@ public final class Constants {
     public static final int SCAN_FINISHED = 100;
     public static final int COMPRESS_QUALITY = 90;
     public static final int OFFSET = 0;
-    public static final double HIGH_RISK = 0.51;
-
+    public static final double HIGH_RISK = 0.7;
+    public static final double MODERATE_RISK = 0.5;
+    public static final double MODERATE_RISK_LOWER = 0.45;
+    public static final double LOW_RISK = 0.1;
     private Constants(){}
 
     public static class IntentActions {
