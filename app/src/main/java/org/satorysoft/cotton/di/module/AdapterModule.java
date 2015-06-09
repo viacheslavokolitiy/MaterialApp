@@ -3,6 +3,7 @@ package org.satorysoft.cotton.di.module;
 import android.content.Context;
 
 import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
+import org.satorysoft.cotton.adapter.PermissionListAdapter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -21,5 +22,10 @@ public class AdapterModule {
     @Provides
     public ApplicationRiskAdapter provideHighRiskAppsAdapter(){
         return new ApplicationRiskAdapter(context);
+    }
+
+    @Provides
+    public PermissionListAdapter providePermissionListAdapter(){
+        return new PermissionListAdapter();
     }
 }

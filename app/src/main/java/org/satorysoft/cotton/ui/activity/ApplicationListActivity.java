@@ -13,12 +13,14 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
 import org.satorysoft.cotton.R;
+import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
 import org.satorysoft.cotton.ui.fragment.HighRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.LowRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.MediumRiskAppsFragment;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by viacheslavokolitiy on 08.06.2015.
@@ -32,6 +34,7 @@ public class ApplicationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_list);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         Toolbar toolbar = materialViewPager.getToolbar();
 
@@ -104,7 +107,7 @@ public class ApplicationListActivity extends AppCompatActivity {
                 }
 
                 String imageURL = "http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2014/06/wallpaper_51.jpg";
-                final int fadeDuration = 400;
+                final int fadeDuration = 100;
                 materialViewPager.setImageUrl(imageURL,fadeDuration);
                 materialViewPager.setColor(color, fadeDuration);
 
@@ -137,5 +140,9 @@ public class ApplicationListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    public void onEvent(ApplicationRiskAdapter.SelectedApplicationEvent event){
+        startActivity(event.getIntent());
     }
 }

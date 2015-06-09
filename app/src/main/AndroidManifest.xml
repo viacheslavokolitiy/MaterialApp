@@ -25,6 +25,9 @@
         <activity android:name=".ui.activity.ApplicationListActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.ApplicationDetailActivity"
+            android:theme="@style/NoActionBarTheme"
+            android:screenOrientation="portrait"/>
         <provider
             android:authorities="org.satorysoft.cotton"
             android:exported="false"
@@ -33,6 +36,19 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="org.satorysoft.cotton.intent.scan_apps_intent"/>
+            </intent-filter>
+        </service>
+        <receiver android:name=".core.receiver.PackageRemovedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".core.service.DbUpdaterService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.satorysoft.cotton.intent.DELETE_APP"/>
             </intent-filter>
         </service>
     </application>

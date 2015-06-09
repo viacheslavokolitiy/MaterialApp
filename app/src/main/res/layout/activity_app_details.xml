@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_app_details_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+        android:minHeight="?attr/actionBarSize" />
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/activity_app_details_bar"
+        android:layout_marginLeft="@dimen/cardview_application_detail_margin_left"
+        android:layout_marginRight="@dimen/cardview_application_detail_margin_right"
+        android:id="@+id/application_card_detail"
+        android:layout_marginTop="@dimen/cardview_application_detail_margin_top"
+        android:layout_marginBottom="@dimen/cardview_application_detail_margin_bottom"
+        app:cardCornerRadius="@dimen/cardview_application_detail_corner_radius"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/application_icon_detail"
+            android:layout_width="wrap_content"
+            android:padding="@dimen/card_imageview_app_details_padding"
+            android:background="@android:color/transparent"
+            android:layout_margin="@dimen/card_imageview_app_details_margin"
+            android:src="@mipmap/ic_launcher"
+            android:layout_height="wrap_content" />
+        <org.satorysoft.cotton.ui.widget.RobotoTextView
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/application_name_text_size"
+            android:layout_marginLeft="@dimen/application_name_margin_left"
+            android:layout_marginTop="@dimen/application_name_margin_top"
+            android:id="@+id/text_application_name_detail"
+            android:layout_height="wrap_content" />
+        <org.satorysoft.cotton.ui.widget.RobotoButton
+            android:textSize="@dimen/trust_btn_text_size"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/trust_button_margin_top"
+            android:id="@+id/btn_trust_application"
+            android:text="@string/text_trust_application"
+            android:layout_marginLeft="@dimen/trust_button_margin_left"
+            android:layout_height="wrap_content" />
+        <org.satorysoft.cotton.ui.widget.RobotoButton
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/delete_button_text_size"
+            android:layout_marginTop="@dimen/button_delete_app_margin_top"
+            android:id="@+id/btn_delete_application"
+            android:text="@string/text_delete_application"
+            android:layout_marginLeft="@dimen/button_delete_app_margin_left"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/card_perm_list_margin_left"
+        android:layout_below="@+id/application_card_detail"
+        android:layout_marginRight="@dimen/card_perm_list_margin_right"
+        android:id="@+id/application_permission_detail_list"
+        android:layout_marginTop="@dimen/card_perm_list_margin_top"
+        android:layout_marginBottom="@dimen/card_perm_list_margin_bottom"
+        app:cardCornerRadius="@dimen/card_perm_list_corner_radius"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:id="@+id/recycler_permissions"
+            android:layout_height="match_parent"/>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

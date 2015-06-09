@@ -82,4 +82,11 @@
         <item name="color">@color/drawerArrowColor</item>
     </style>
 
+    <style name="NoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#F1433C</item>
+        <item name="colorAccent">@color/md_white_1000</item>
+        <item name="homeAsUpIndicator">@color/md_white_1000</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+
 </resources>

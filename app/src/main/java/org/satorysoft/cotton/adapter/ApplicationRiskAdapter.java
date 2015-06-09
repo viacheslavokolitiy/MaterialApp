@@ -1,6 +1,8 @@
 package org.satorysoft.cotton.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,7 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.satorysoft.cotton.R;
+import org.satorysoft.cotton.core.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.core.model.ScannedApplication;
+import org.satorysoft.cotton.core.model.SelectedApplication;
+import org.satorysoft.cotton.core.service.ApplicationScannerService;
+import org.satorysoft.cotton.ui.activity.ApplicationDetailActivity;
 import org.satorysoft.cotton.ui.widget.RobotoTextView;
 import org.satorysoft.cotton.util.Constants;
 import org.satorysoft.cotton.util.IDrawableStateManager;
@@ -25,6 +31,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by viacheslavokolitiy on 08.06.2015.
@@ -81,7 +88,34 @@ public class ApplicationRiskAdapter extends RecyclerView.Adapter<ApplicationRisk
 
         @Override
         public void onClick(View view) {
+            //select application from list
+            Drawable drawable = applicationLogo.getDrawable();
+            String title = applicationTitle.getText().toString();
+            String[] applicationPermissions;
 
+            Cursor cursor = context.getContentResolver().query(ScannedApplicationContract.CONTENT_URI,
+                    null, ScannedApplicationContract.APPLICATION_NAME + "=?",
+                    new String[]{title}, null);
+            if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()){
+                applicationPermissions = cursor.getString(cursor.getColumnIndex(ScannedApplicationContract
+                        .APPLICATION_PERMISSIONS))
+                        .split(ApplicationScannerService.ARRAY_DIVIDER.toString());
+            } else {
+                applicationPermissions = new String[]{};
+            }
+
+            if(cursor != null){
+                cursor.close();
+            }
+
+            SelectedApplication selectedApplication = new SelectedApplication();
+            selectedApplication.setIcon(convertToBytes(drawable));
+            selectedApplication.setTitle(title);
+            selectedApplication.setPermissions(applicationPermissions);
+
+            Intent intent = new Intent(context, ApplicationDetailActivity.class);
+            intent.putExtra(Constants.SCANNED_APPLICATION, selectedApplication);
+            EventBus.getDefault().post(new SelectedApplicationEvent(intent));
         }
     }
 
@@ -95,5 +129,16 @@ public class ApplicationRiskAdapter extends RecyclerView.Adapter<ApplicationRisk
     @SuppressWarnings("deprecation")
     @Override public Drawable restoreDrawable(byte[] bytes){
         return new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, Constants.OFFSET, bytes.length));
+    }
+
+    public class SelectedApplicationEvent {
+        private final Intent intent;
+        public SelectedApplicationEvent(Intent intent) {
+            this.intent = intent;
+        }
+
+        public Intent getIntent() {
+            return intent;
+        }
     }
 }

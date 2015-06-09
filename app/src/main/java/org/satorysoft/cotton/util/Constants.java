@@ -1,5 +1,7 @@
 package org.satorysoft.cotton.util;
 
+import android.content.IntentFilter;
+
 /**
  * Created by viacheslavokolitiy on 08.06.2015.
  */
@@ -20,10 +22,16 @@ public final class Constants {
     public static final double MODERATE_RISK = 0.5;
     public static final double MODERATE_RISK_LOWER = 0.45;
     public static final double LOW_RISK = 0.1;
+    public static final String SCANNED_APPLICATION = "scanned_application";
+    public static final String ADDED_PACKAGE_NAME = "added_package_name";
+
+
     private Constants(){}
 
     public static class IntentActions {
         private IntentActions(){}
         public static final String SCAN_APPS_INTENT = "org.satorysoft.cotton.intent.scan_apps_intent";
+        public static final String INTENT_REMOVE_APP = "org.satorysoft.cotton.intent.DELETE_APP";
+
     }
 }
