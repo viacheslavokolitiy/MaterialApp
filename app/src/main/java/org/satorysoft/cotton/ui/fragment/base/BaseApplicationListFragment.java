@@ -17,7 +17,6 @@ import org.satorysoft.cotton.di.component.AdapterComponent;
 import org.satorysoft.cotton.di.component.DaggerAdapterComponent;
 import org.satorysoft.cotton.di.module.AdapterModule;
 import org.satorysoft.cotton.ui.animator.SlideInFromLeftItemAnimator;
-import org.satorysoft.cotton.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;

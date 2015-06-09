@@ -1,7 +1,5 @@
 package org.satorysoft.cotton.util;
 
-import android.content.Intent;
-
 /**
  * Created by viacheslavokolitiy on 08.06.2015.
  */

@@ -1,10 +1,8 @@
 package org.satorysoft.cotton;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 
 import org.satorysoft.cotton.ui.activity.ApplicationListActivity;
 import org.satorysoft.cotton.ui.activity.ApplicationScanActivity;

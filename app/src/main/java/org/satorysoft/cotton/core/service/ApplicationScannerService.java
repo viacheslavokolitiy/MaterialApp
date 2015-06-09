@@ -3,7 +3,6 @@ package org.satorysoft.cotton.core.service;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;

@@ -3,14 +3,11 @@ package org.satorysoft.cotton.ui.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
-import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import org.satorysoft.cotton.R;

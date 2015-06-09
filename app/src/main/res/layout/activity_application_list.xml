@@ -17,6 +17,6 @@
         app:viewpager_hideToolbarAndTitle="false"
         app:viewpager_enableToolbarElevation="true"
         app:viewpager_parallaxHeaderFactor="1.5"
-        app:viewpager_headerAdditionalHeight="5dp"
+        app:viewpager_headerAdditionalHeight="35dp"
         />
 </LinearLayout>
