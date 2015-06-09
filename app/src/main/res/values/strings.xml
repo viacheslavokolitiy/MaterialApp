@@ -8,4 +8,11 @@
     <string name="text_tab_second">Moderate risk apps</string>
     <string name="text_tab_third">Low risk apps</string>
     <string name="text_header_logo">Cotton</string>
+    <string name="text_drawer_backup_photo">Backup photos</string>
+    <string name="text_drawer_backup_call_history">Backup call history</string>
+    <string name="text_drawer_scheduled_backup">Scheduled backup</string>
+    <string name="text_drawer_restore">Restore data</string>
+    <string name="text_backup_music">Backup music</string>
+    <string name="text_drawer_backup_movies">Backup movies</string>
+    <string name="text_drawer_backup_contacts">Backup contacts</string>
 </resources>

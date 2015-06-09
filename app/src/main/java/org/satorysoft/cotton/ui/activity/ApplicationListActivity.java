@@ -8,7 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
+import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.ui.fragment.HighRiskAppsFragment;
@@ -48,7 +50,17 @@ public class ApplicationListActivity extends AppCompatActivity {
                     .withToolbar(toolbar)
                     .withActionBarDrawerToggle(true)
                     .withHeader(R.layout.drawer_header)
-                    .build();
+                    .addDrawerItems(
+                            new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_photo)).withIcon(FontAwesome.Icon.faw_photo),
+                            new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_call_history)).withIcon(FontAwesome.Icon.faw_mobile_phone),
+                            new PrimaryDrawerItem().withName(getString(R.string.text_backup_music)).withIcon(FontAwesome.Icon.faw_file_audio_o),
+                            new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_movies)).withIcon(FontAwesome.Icon.faw_file_movie_o),
+                            new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_contacts)).withIcon(FontAwesome.Icon.faw_group),
+                            new PrimaryDrawerItem().withName(getString(R.string.text_drawer_scheduled_backup)).withIcon(FontAwesome.Icon.faw_clock_o),
+                            new PrimaryDrawerItem().withName(getString(R.string.text_drawer_restore)).withIcon(FontAwesome.Icon.faw_refresh)
+                    )
+                    .build()
+                    .setSelection(-1);
         }
 
         materialViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
