@@ -17,4 +17,5 @@
     <string name="text_drawer_backup_contacts">Backup contacts</string>
     <string name="text_delete_application">Delete application ?</string>
     <string name="text_trust_application">Trust application ?</string>
+    <string name="text_gactivity_btn_login_text">Sign in with Google Drive</string>
 </resources>

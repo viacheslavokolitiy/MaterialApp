@@ -24,6 +24,8 @@ public final class Constants {
     public static final double LOW_RISK = 0.1;
     public static final String SCANNED_APPLICATION = "scanned_application";
     public static final String ADDED_PACKAGE_NAME = "added_package_name";
+    public static final String GOOGLE_AUTH_VALID = "google_auth_valid";
+    public static final String APPFOLDER_DRIVE_ID = "appfolder_drive_id";
 
 
     private Constants(){}
