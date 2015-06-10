@@ -45,10 +45,24 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".core.receiver.ApplicationInstalledReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+
         <service android:name=".core.service.DbUpdaterService"
             android:exported="false">
             <intent-filter>
                 <action android:name="org.satorysoft.cotton.intent.DELETE_APP"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".core.service.RecentApplicationScanner"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.satorysoft.cotton.intent.scan_new_app"/>
             </intent-filter>
         </service>
     </application>

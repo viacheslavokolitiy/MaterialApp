@@ -32,6 +32,7 @@ public final class Constants {
         private IntentActions(){}
         public static final String SCAN_APPS_INTENT = "org.satorysoft.cotton.intent.scan_apps_intent";
         public static final String INTENT_REMOVE_APP = "org.satorysoft.cotton.intent.DELETE_APP";
+        public static final String INTENT_SCAN_APPS = "org.satorysoft.cotton.intent.scan_new_app";
 
     }
 }
