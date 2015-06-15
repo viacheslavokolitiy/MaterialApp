@@ -40,6 +40,7 @@ import org.satorysoft.cotton.di.module.ViewsModule;
 import org.satorysoft.cotton.ui.animator.SlideInFromLeftItemAnimator;
 import org.satorysoft.cotton.ui.widget.RobotoButton;
 import org.satorysoft.cotton.ui.widget.RobotoTextView;
+import org.satorysoft.cotton.util.ActionBarOwner;
 import org.satorysoft.cotton.util.Constants;
 import org.satorysoft.cotton.util.DpUtil;
 import org.satorysoft.cotton.util.IDrawableStateManager;
@@ -93,7 +94,7 @@ public class ApplicationDetailActivity extends AppCompatActivity implements IDra
 
             Intent intent = getIntent();
             SelectedApplication selectedApplication = (SelectedApplication) intent.getSerializableExtra(Constants.SCANNED_APPLICATION);
-            setCustomActionBarTitle(selectedApplication.getTitle());
+            new ActionBarOwner(this).setCustomActionBarTitle(getSupportActionBar(), selectedApplication.getTitle());
             EventBus.getDefault().post(new PopulateCardViewEvent(selectedApplication));
             Cursor cursor = getContentResolver().query(ScannedApplicationContract.CONTENT_URI, null,
                     ScannedApplicationContract.APPLICATION_NAME + "=?", new String[]{selectedApplication.getTitle()}, null);
@@ -118,15 +119,6 @@ public class ApplicationDetailActivity extends AppCompatActivity implements IDra
 
             registerReceiver(new PackageRemovedReceiver(), new IntentFilter(Constants.IntentActions.INTENT_REMOVE_APP));
         }
-    }
-
-    public void setCustomActionBarTitle(String title) {
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View v = inflater.inflate(R.layout.layout_action_bar_title, null);
-        ((RobotoTextView)v.findViewById(R.id.text_custom_action_bar_title)).setText(title);
-        getSupportActionBar().setCustomView(v);
     }
 
     public static class PopulateCardViewEvent {

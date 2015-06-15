@@ -26,15 +26,36 @@ public final class Constants {
     public static final String ADDED_PACKAGE_NAME = "added_package_name";
     public static final String GOOGLE_AUTH_VALID = "google_auth_valid";
     public static final String APPFOLDER_DRIVE_ID = "appfolder_drive_id";
+    public static final int PHOTO_GRID_WIDTH = 180;
+    public static final int PHOTO_GRID_HEIGHT = 180;
+    public static final int IMAGE_VIEW_PADDING_TOP = 1;
+    public static final int IMAGE_VIEW_PADDING_LEFT = 8;
+    public static final int IMAGE_VIEW_PADDING_RIGHT = 18;
+    public static final int IMAGE_VIEW_PADDING_BOTTOM = 1;
+    public static final int REQUIRED_WIDTH = 180;
+    public static final int REQUIRED_HEIGHT = 180;
+    public static final int BUFFER_SIZE = 1024;
+    public static final int IMAGE_NEW_WIDTH = 96;
+    public static final int IMAGE_NEW_HEIGHT = 96;
+    public static final int LATCH_COUNT = 1;
+    public static final String PHOTO_FOLDER_ID = "photo_folder_id";
 
 
     private Constants(){}
 
     public static class IntentActions {
+        public static final String ACTION_UPLOAD_PHOTOS = "org.satorysoft.cotton.intent.upload_photos_to_google_drive";
+
         private IntentActions(){}
         public static final String SCAN_APPS_INTENT = "org.satorysoft.cotton.intent.scan_apps_intent";
         public static final String INTENT_REMOVE_APP = "org.satorysoft.cotton.intent.DELETE_APP";
         public static final String INTENT_SCAN_APPS = "org.satorysoft.cotton.intent.scan_new_app";
 
+    }
+
+    public class IntentExtras {
+        public static final String PHOTOS_FOR_BACKUP_EXTRA = "photos_for_backup";
+
+        private IntentExtras(){}
     }
 }
