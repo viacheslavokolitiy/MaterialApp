@@ -22,11 +22,11 @@ public class FileFinder {
         this.foundedFile = new LinkedHashMap<>();
     }
 
-    public void findFilesWithExtension(String extension){
+    public void findFilesWithExtension(List<String> fileExtensions){
         String rootSD = Environment.getExternalStorageDirectory().toString();
 
         File folderFile = new File(rootSD);
-        LinkedHashMap<String,String> foundedMediaFiles = getAllFilesOfDir(folderFile, extension);
+        LinkedHashMap<String,String> foundedMediaFiles = getAllFilesOfDir(folderFile, fileExtensions);
 
         if(foundedMediaFiles.size() > 0){
             EventBus.getDefault().post(new MusicFileFoundEvent(foundedMediaFiles));
@@ -35,7 +35,7 @@ public class FileFinder {
         }
     }
 
-    private LinkedHashMap<String, String> getAllFilesOfDir(File directory, String fileExtension) {
+    private LinkedHashMap<String, String> getAllFilesOfDir(File directory, List<String> fileExtensions) {
         Log.d(TAG, "Directory: " + directory.getAbsolutePath() + "\n");
 
         final File[] files = directory.listFiles();
@@ -44,14 +44,16 @@ public class FileFinder {
             for ( File file : files ) {
                 if ( file != null ) {
                     if ( file.isDirectory() ) {
-                        getAllFilesOfDir(file, fileExtension);
+                        getAllFilesOfDir(file, fileExtensions);
                     }
                     else {
-                        if(file.getName().endsWith(fileExtension)){
-                            if(!foundedFile.containsKey(file.getName())) {
-                                foundedFile.put(file.getName(), file.getAbsolutePath());
-                            }
-                        }
+                       for(String extension : fileExtensions){
+                           if(file.getName().endsWith(extension)){
+                               if(!foundedFile.containsKey(file.getName())) {
+                                   foundedFile.put(file.getName(), file.getAbsolutePath());
+                               }
+                           }
+                       }
                     }
                 }
             }

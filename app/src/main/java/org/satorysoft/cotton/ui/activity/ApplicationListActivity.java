@@ -27,6 +27,9 @@ import org.satorysoft.cotton.ui.fragment.MediumRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.dialog.MusicFileListDialog;
 import org.satorysoft.cotton.util.GoogleAuthChecker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.FindView;
 import de.greenrobot.event.EventBus;
@@ -99,7 +102,7 @@ public class ApplicationListActivity extends AppCompatActivity {
                             checkAuth();
                             if(isUserAuthenticated){
                                 FileFinder fileFinder = new FileFinder();
-                                fileFinder.findFilesWithExtension("mp3");
+                                fileFinder.findFilesWithExtension(getFileExtensionList());
                             }
                             return false;
                         case BACKUP_MOVIES:
@@ -192,6 +195,16 @@ public class ApplicationListActivity extends AppCompatActivity {
         materialViewPager.getViewPager().setOffscreenPageLimit(materialViewPager.getViewPager().getAdapter().getCount());
         materialViewPager.getPagerTitleStrip().setViewPager(materialViewPager.getViewPager());
         materialViewPager.getViewPager().setCurrentItem(0);
+    }
+
+    private List<String> getFileExtensionList(){
+        List<String> extensionList = new ArrayList<>();
+        extensionList.add("mp3");
+        extensionList.add("wav");
+        extensionList.add("wave");
+        extensionList.add("flac");
+
+        return extensionList;
     }
 
     private void initiateCallLogBackup() {
