@@ -19,10 +19,12 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
+import org.satorysoft.cotton.core.FileFinder;
 import org.satorysoft.cotton.core.gdrive.CallLogUploaderTask;
 import org.satorysoft.cotton.ui.fragment.HighRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.LowRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.MediumRiskAppsFragment;
+import org.satorysoft.cotton.ui.fragment.dialog.MusicFileListDialog;
 import org.satorysoft.cotton.util.GoogleAuthChecker;
 
 import butterknife.ButterKnife;
@@ -95,6 +97,10 @@ public class ApplicationListActivity extends AppCompatActivity {
                             return false;
                         case BACKUP_MUSIC:
                             checkAuth();
+                            if(isUserAuthenticated){
+                                FileFinder fileFinder = new FileFinder();
+                                fileFinder.findFilesWithExtension("mp3");
+                            }
                             return false;
                         case BACKUP_MOVIES:
                             checkAuth();
@@ -209,5 +215,9 @@ public class ApplicationListActivity extends AppCompatActivity {
 
     public void onEvent(ApplicationRiskAdapter.SelectedApplicationEvent event){
         startActivity(event.getIntent());
+    }
+
+    public void onEvent(FileFinder.MusicFileFoundEvent event){
+        MusicFileListDialog.newInstance(event.getFoundedMediaFiles()).show(getSupportFragmentManager(), "dialog");
     }
 }

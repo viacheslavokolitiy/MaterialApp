@@ -28,4 +28,8 @@
     <string name="text_upload_calls">Backup calls… Please wait…</string>
     <string name="text_backup_call_log_name">Call log</string>
     <string name="text_call_log_backup_success">Call history has backed up successfully</string>
+    <string name="text_dialog_select_music">Select music files for backup...</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="text_select_music_for_upload">Select music files for backup</string>
 </resources>
