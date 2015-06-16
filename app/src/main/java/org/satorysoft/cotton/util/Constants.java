@@ -39,6 +39,7 @@ public final class Constants {
     public static final int IMAGE_NEW_HEIGHT = 96;
     public static final int LATCH_COUNT = 1;
     public static final String PHOTO_FOLDER_ID = "photo_folder_id";
+    public static final String CALL_LOG_FOLDER_ID = "call_log_folder_id";
 
 
     private Constants(){}

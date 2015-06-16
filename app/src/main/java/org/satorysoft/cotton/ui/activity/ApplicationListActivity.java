@@ -19,6 +19,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
+import org.satorysoft.cotton.core.gdrive.CallLogUploaderTask;
 import org.satorysoft.cotton.ui.fragment.HighRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.LowRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.MediumRiskAppsFragment;
@@ -88,6 +89,9 @@ public class ApplicationListActivity extends AppCompatActivity {
                             return false;
                         case BACKUP_CALL_HISTORY:
                             checkAuth();
+                            if(isUserAuthenticated){
+                                initiateCallLogBackup();
+                            }
                             return false;
                         case BACKUP_MUSIC:
                             checkAuth();
@@ -182,6 +186,10 @@ public class ApplicationListActivity extends AppCompatActivity {
         materialViewPager.getViewPager().setOffscreenPageLimit(materialViewPager.getViewPager().getAdapter().getCount());
         materialViewPager.getPagerTitleStrip().setViewPager(materialViewPager.getViewPager());
         materialViewPager.getViewPager().setCurrentItem(0);
+    }
+
+    private void initiateCallLogBackup() {
+        new CallLogUploaderTask(this).execute();
     }
 
     public void checkAuth(){
