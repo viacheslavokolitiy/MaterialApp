@@ -8,6 +8,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import org.satorysoft.cotton.R;
+import org.satorysoft.cotton.core.gdrive.MusicFileUploadTask;
+import org.satorysoft.cotton.core.gdrive.UploadPhotoTask;
 import org.satorysoft.cotton.util.Constants;
 
 import java.util.ArrayList;
@@ -84,6 +86,6 @@ public class MusicFileListDialog extends DialogFragment {
     }
 
     private void initiateBackupMusic(ArrayList<String> mSelectedItems) {
-
+        new MusicFileUploadTask(getActivity(), mSelectedItems).execute();
     }
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.mikepenz.iconics.typeface.FontAwesome;
@@ -21,6 +22,7 @@ import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
 import org.satorysoft.cotton.core.FileFinder;
 import org.satorysoft.cotton.core.gdrive.CallLogUploaderTask;
+import org.satorysoft.cotton.core.gdrive.UploadPhotoTask;
 import org.satorysoft.cotton.ui.fragment.HighRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.LowRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.MediumRiskAppsFragment;
@@ -232,5 +234,13 @@ public class ApplicationListActivity extends AppCompatActivity {
 
     public void onEvent(FileFinder.MusicFileFoundEvent event){
         MusicFileListDialog.newInstance(event.getFoundedMediaFiles()).show(getSupportFragmentManager(), "dialog");
+    }
+
+    public void onEvent(UploadPhotoTask.FileUploadFailedEvent event){
+        Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    public void onEvent(UploadPhotoTask.UploadSuccessfulEvent event){
+        Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_LONG).show();
     }
 }
