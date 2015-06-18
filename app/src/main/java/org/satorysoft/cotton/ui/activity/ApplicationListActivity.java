@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.mikepenz.iconics.typeface.FontAwesome;
@@ -19,11 +20,17 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
+import org.satorysoft.cotton.core.FileFinder;
 import org.satorysoft.cotton.core.gdrive.CallLogUploaderTask;
+import org.satorysoft.cotton.core.gdrive.UploadPhotoTask;
 import org.satorysoft.cotton.ui.fragment.HighRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.LowRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.MediumRiskAppsFragment;
+import org.satorysoft.cotton.ui.fragment.dialog.MusicFileListDialog;
 import org.satorysoft.cotton.util.GoogleAuthChecker;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
@@ -95,6 +102,10 @@ public class ApplicationListActivity extends AppCompatActivity {
                             return false;
                         case BACKUP_MUSIC:
                             checkAuth();
+                            if(isUserAuthenticated){
+                                FileFinder fileFinder = new FileFinder();
+                                fileFinder.findFilesWithExtension(getFileExtensionList());
+                            }
                             return false;
                         case BACKUP_MOVIES:
                             checkAuth();
@@ -188,6 +199,16 @@ public class ApplicationListActivity extends AppCompatActivity {
         materialViewPager.getViewPager().setCurrentItem(0);
     }
 
+    private List<String> getFileExtensionList(){
+        List<String> extensionList = new ArrayList<>();
+        extensionList.add("mp3");
+        extensionList.add("wav");
+        extensionList.add("wave");
+        extensionList.add("flac");
+
+        return extensionList;
+    }
+
     private void initiateCallLogBackup() {
         new CallLogUploaderTask(this).execute();
     }
@@ -209,5 +230,17 @@ public class ApplicationListActivity extends AppCompatActivity {
 
     public void onEvent(ApplicationRiskAdapter.SelectedApplicationEvent event){
         startActivity(event.getIntent());
+    }
+
+    public void onEvent(FileFinder.MusicFileFoundEvent event){
+        MusicFileListDialog.newInstance(event.getFoundedMediaFiles()).show(getSupportFragmentManager(), "dialog");
+    }
+
+    public void onEvent(UploadPhotoTask.FileUploadFailedEvent event){
+        Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    public void onEvent(UploadPhotoTask.UploadSuccessfulEvent event){
+        Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_LONG).show();
     }
 }
