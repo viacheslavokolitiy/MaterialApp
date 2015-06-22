@@ -131,22 +131,24 @@ public class UploadPhotoTask extends APIAsyncTask<String, Void, List<Metadata>>{
 
             if(!TextUtils.isEmpty(encodedDriveId)) {
 
-                DriveFolder.DriveFileResult fileResult = photoFolder.createFile(
-                        getGoogleApiClient(), originalMetadata, originalContents).await();
+                if(photoFolder != null){
+                    DriveFolder.DriveFileResult fileResult = photoFolder.createFile(
+                            getGoogleApiClient(), originalMetadata, originalContents).await();
 
-                if (!fileResult.getStatus().isSuccess()) {
-                    return null;
+                    if (!fileResult.getStatus().isSuccess()) {
+                        return null;
+                    }
+
+                    DriveResource.MetadataResult metadataResult = fileResult.getDriveFile()
+                            .getMetadata(getGoogleApiClient())
+                            .await();
+
+                    if (!metadataResult.getStatus().isSuccess()) {
+                        return null;
+                    }
+
+                    fileMetadataList.add(metadataResult.getMetadata());
                 }
-
-                DriveResource.MetadataResult metadataResult = fileResult.getDriveFile()
-                        .getMetadata(getGoogleApiClient())
-                        .await();
-
-                if (!metadataResult.getStatus().isSuccess()) {
-                    return null;
-                }
-
-                fileMetadataList.add(metadataResult.getMetadata());
             }
         }
 
