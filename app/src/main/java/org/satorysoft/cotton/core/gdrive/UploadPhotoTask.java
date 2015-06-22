@@ -64,36 +64,7 @@ public class UploadPhotoTask extends APIAsyncTask<String, Void, List<Metadata>>{
         String encodedPhotoFolderId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PHOTO_FOLDER_ID, null);
         final String encodedDriveId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.APPFOLDER_DRIVE_ID, null);
 
-        //no photo folder created yet
-        if(TextUtils.isEmpty(encodedPhotoFolderId)){
-            Query query = new Query.Builder()
-                    .addFilter(Filters.eq(SearchableField.MIME_TYPE, "application/vnd.google-apps.folder")).build();
-            Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId))
-                    .queryChildren(getGoogleApiClient(), query)
-                    .setResultCallback(new ResultCallback<DriveApi.MetadataBufferResult>() {
-                        @Override
-                        public void onResult(DriveApi.MetadataBufferResult result) {
-                            for (Metadata metadata : result.getMetadataBuffer()){
-                                if(!metadata.isTrashed()){
-                                    String title = metadata.getTitle();
-                                    if(title.equals(context.getString(R.string.text_photo_folder_name))){
-                                        driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), metadata.getDriveId());
-                                        photoFolderIds.add(driveFolder);
-                                    }
-                                }
-                            }
-
-                            if(photoFolderIds.size() == 0){
-                                DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
-                                driveFolder = createFolderWithName(context,appFolder,
-                                        context.getString(R.string.text_photo_folder_name),
-                                        Constants.PHOTO_FOLDER_ID);
-                            }
-                        }
-                    });
-        } else {
-            driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedPhotoFolderId));
-        }
+        getOrCreateBackupFolder(context, encodedDriveId, context.getString(R.string.text_photo_folder_name), encodedPhotoFolderId, Constants.PHOTO_FOLDER_ID);
 
         for(String imageURL : images){
             DriveApi.DriveContentsResult contentsResult = Drive.DriveApi

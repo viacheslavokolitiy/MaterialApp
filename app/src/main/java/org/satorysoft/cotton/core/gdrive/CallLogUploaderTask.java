@@ -84,38 +84,7 @@ public class CallLogUploaderTask extends APIAsyncTask<Void, Integer, List<Metada
         final String encodedDriveId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.APPFOLDER_DRIVE_ID, null);
         String encodedCallLogFolderId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.CALL_LOG_FOLDER_ID, null);
 
-        if(TextUtils.isEmpty(encodedCallLogFolderId)){
-            Query query = new Query.Builder()
-                    .addFilter(Filters.eq(SearchableField.MIME_TYPE, "application/vnd.google-apps.folder")).build();
-            if(!TextUtils.isEmpty(encodedDriveId)){
-                Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId))
-                        .queryChildren(getGoogleApiClient(), query)
-                        .setResultCallback(new ResultCallback<DriveApi.MetadataBufferResult>() {
-                            @Override
-                            public void onResult(DriveApi.MetadataBufferResult result) {
-                                for(Metadata metadata : result.getMetadataBuffer()){
-                                    if(!metadata.isTrashed()){
-                                        String title = metadata.getTitle();
-                                        if(title.equals(context.getString(R.string.text_backup_call_log_name))){
-                                            driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), metadata.getDriveId());
-                                            backupCallLogFolders.add(backupCallLogFolder);
-                                        }
-                                    }
-                                }
-
-                                if(backupCallLogFolders.size() == 0){
-                                    DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
-                                    driveFolder = createFolderWithName(context,
-                                            appFolder,
-                                            context.getString(R.string.text_backup_call_log_name),
-                                            Constants.CALL_LOG_FOLDER_ID);
-                                }
-                            }
-                        });
-            }
-        } else {
-            driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedCallLogFolderId));
-        }
+        getOrCreateBackupFolder(context, encodedDriveId, context.getString(R.string.text_backup_call_log_name), encodedCallLogFolderId, Constants.CALL_LOG_FOLDER_ID);
 
 
         File jsonFile = new File(Environment
