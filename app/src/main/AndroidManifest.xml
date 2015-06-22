@@ -3,7 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.satorysoft.cotton">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
 
     <application
         android:allowBackup="true"
@@ -28,6 +33,13 @@
         <activity android:name=".ui.activity.ApplicationDetailActivity"
             android:theme="@style/NoActionBarTheme"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.GoogleAuthActivity"
+            android:theme="@style/NoActionBarTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.BackupPhotoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarTheme"/>
+
         <provider
             android:authorities="org.satorysoft.cotton"
             android:exported="false"

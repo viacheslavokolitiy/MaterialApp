@@ -1,6 +1,8 @@
 package org.satorysoft.cotton.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import org.satorysoft.cotton.di.component.DaggerPreferenceComponent;
 import org.satorysoft.cotton.di.component.PreferenceComponent;
@@ -26,6 +28,10 @@ public class ScanChecker {
         boolean isScanNeeded = mPreferenceComponent.getBooleanPreference()
                 .getValue(Constants.SCAN_ON_FIRST_RUN_DONE, false);
         if(!isScanNeeded){
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(Constants.GOOGLE_AUTH_VALID, false);
+            editor.commit();
             EventBus.getDefault().post(new ShowApplicationScanScreenEvent());
         } else {
             EventBus.getDefault().post(new ShowApplicationListScreenEvent());

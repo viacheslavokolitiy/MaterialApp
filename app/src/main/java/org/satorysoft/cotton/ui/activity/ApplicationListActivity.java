@@ -1,22 +1,36 @@
 package org.satorysoft.cotton.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.mikepenz.iconics.typeface.FontAwesome;
+import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
+import org.satorysoft.cotton.core.FileFinder;
+import org.satorysoft.cotton.core.gdrive.CallLogUploaderTask;
+import org.satorysoft.cotton.core.gdrive.UploadPhotoTask;
 import org.satorysoft.cotton.ui.fragment.HighRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.LowRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.MediumRiskAppsFragment;
+import org.satorysoft.cotton.ui.fragment.dialog.MusicFileListDialog;
+import org.satorysoft.cotton.util.GoogleAuthChecker;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
@@ -26,8 +40,16 @@ import de.greenrobot.event.EventBus;
  * Created by viacheslavokolitiy on 08.06.2015.
  */
 public class ApplicationListActivity extends AppCompatActivity {
+    private static final int BACKUP_PHOTOS = 0;
+    private static final int BACKUP_CALL_HISTORY = 1;
+    private static final int BACKUP_MUSIC = 2;
+    private static final int BACKUP_MOVIES = 3;
+    private static final int BACKUP_CONTACTS = 4;
+    private static final int SCHEDULED_BACKUP = 5;
+    private static final int RESTORE_DATA = 6;
     @FindView(R.id.materialViewPager)
     protected MaterialViewPager materialViewPager;
+    private boolean isUserAuthenticated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +83,47 @@ public class ApplicationListActivity extends AppCompatActivity {
                             new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_contacts)).withIcon(FontAwesome.Icon.faw_group),
                             new PrimaryDrawerItem().withName(getString(R.string.text_drawer_scheduled_backup)).withIcon(FontAwesome.Icon.faw_clock_o),
                             new PrimaryDrawerItem().withName(getString(R.string.text_drawer_restore)).withIcon(FontAwesome.Icon.faw_refresh)
-                    )
+                    ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                @Override
+                public boolean onItemClick(AdapterView<?> parent, View view,
+                                           int position, long id, IDrawerItem drawerItem) {
+                    switch (position){
+                        case BACKUP_PHOTOS:
+                            checkAuth();
+                            if(isUserAuthenticated){
+                                startActivity(new Intent(ApplicationListActivity.this, BackupPhotoActivity.class));
+                            }
+                            return false;
+                        case BACKUP_CALL_HISTORY:
+                            checkAuth();
+                            if(isUserAuthenticated){
+                                initiateCallLogBackup();
+                            }
+                            return false;
+                        case BACKUP_MUSIC:
+                            checkAuth();
+                            if(isUserAuthenticated){
+                                FileFinder fileFinder = new FileFinder();
+                                fileFinder.findFilesWithExtension(getFileExtensionList());
+                            }
+                            return false;
+                        case BACKUP_MOVIES:
+                            checkAuth();
+                            return false;
+                        case BACKUP_CONTACTS:
+                            checkAuth();
+                            return false;
+                        case SCHEDULED_BACKUP:
+                            checkAuth();
+                            return false;
+                        case RESTORE_DATA:
+                            checkAuth();
+                            return false;
+                        default:
+                            return false;
+                    }
+                }
+            })
                     .build()
                     .setSelection(-1);
         }
@@ -137,6 +199,30 @@ public class ApplicationListActivity extends AppCompatActivity {
         materialViewPager.getViewPager().setCurrentItem(0);
     }
 
+    private List<String> getFileExtensionList(){
+        List<String> extensionList = new ArrayList<>();
+        extensionList.add("mp3");
+        extensionList.add("wav");
+        extensionList.add("wave");
+        extensionList.add("flac");
+
+        return extensionList;
+    }
+
+    private void initiateCallLogBackup() {
+        new CallLogUploaderTask(this).execute();
+    }
+
+    public void checkAuth(){
+        GoogleAuthChecker googleAuthChecker = new GoogleAuthChecker(ApplicationListActivity.this);
+        if(!googleAuthChecker.isUserAuthenticated()){
+            isUserAuthenticated = false;
+            startActivity(new Intent(ApplicationListActivity.this, GoogleAuthActivity.class));
+        } else {
+            isUserAuthenticated = true;
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -144,5 +230,17 @@ public class ApplicationListActivity extends AppCompatActivity {
 
     public void onEvent(ApplicationRiskAdapter.SelectedApplicationEvent event){
         startActivity(event.getIntent());
+    }
+
+    public void onEvent(FileFinder.MusicFileFoundEvent event){
+        MusicFileListDialog.newInstance(event.getFoundedMediaFiles()).show(getSupportFragmentManager(), "dialog");
+    }
+
+    public void onEvent(UploadPhotoTask.FileUploadFailedEvent event){
+        Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    public void onEvent(UploadPhotoTask.UploadSuccessfulEvent event){
+        Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

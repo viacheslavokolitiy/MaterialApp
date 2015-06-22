@@ -2,6 +2,7 @@ package org.satorysoft.cotton.di.component;
 
 import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
 import org.satorysoft.cotton.adapter.PermissionListAdapter;
+import org.satorysoft.cotton.adapter.PhotoGridAdapter;
 import org.satorysoft.cotton.di.module.AdapterModule;
 
 import javax.inject.Singleton;
@@ -16,4 +17,5 @@ import dagger.Component;
 public interface AdapterComponent {
     ApplicationRiskAdapter getAdapter();
     PermissionListAdapter getPermissionsAdapter();
+    PhotoGridAdapter getPhotoGridAdapter();
 }

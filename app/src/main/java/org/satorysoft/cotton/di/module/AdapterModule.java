@@ -4,6 +4,7 @@ import android.content.Context;
 
 import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
 import org.satorysoft.cotton.adapter.PermissionListAdapter;
+import org.satorysoft.cotton.adapter.PhotoGridAdapter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -27,5 +28,10 @@ public class AdapterModule {
     @Provides
     public PermissionListAdapter providePermissionListAdapter(){
         return new PermissionListAdapter();
+    }
+
+    @Provides
+    public PhotoGridAdapter providePhotoGridAdapter(){
+        return new PhotoGridAdapter(context);
     }
 }

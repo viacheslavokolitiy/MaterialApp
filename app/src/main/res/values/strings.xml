@@ -3,7 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="text_scanning_applications_progress">Scanning applications... Please wait...</string>
+    <string name="text_scanning_applications_progress">Scanning applications… Please wait…</string>
     <string name="text_tab_first">High risk apps</string>
     <string name="text_tab_second">Moderate risk apps</string>
     <string name="text_tab_third">Low risk apps</string>
@@ -17,4 +17,22 @@
     <string name="text_drawer_backup_contacts">Backup contacts</string>
     <string name="text_delete_application">Delete application ?</string>
     <string name="text_trust_application">Trust application ?</string>
+    <string name="text_gactivity_btn_login_text">Sign in with Google Drive</string>
+    <string name="text_backup_photos">Backup photos</string>
+    <string name="menu_upload_to_gdrive">Backup to Google Drive</string>
+    <string name="text_backing_up_photos_progress">Backing up photos in progress… Please wait…</string>
+    <string name="text_photo_folder_name">Photos</string>
+    <string name="text_upload_success">Photo uploaded successfully</string>
+    <string name="text_upload_failed_error">Error while creating the file.</string>
+    <string name="text_no_inet_conn">It seems internet connection broken. Please, check your internet connection and try again</string>
+    <string name="text_upload_calls">Backup calls… Please wait…</string>
+    <string name="text_backup_call_log_name">Call log</string>
+    <string name="text_call_log_backup_success">Call history has backed up successfully</string>
+    <string name="text_dialog_select_music">Select music files for backup...</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="text_select_music_for_upload">Select music files for backup</string>
+    <string name="text_backup_music_in_progress">Backup music in progress... Please wait...</string>
+    <string name="music_upload_success_status">Selected files have been uploaded successfully</string>
+    <string name="text_backup_music_folder_name">Music</string>
 </resources>
