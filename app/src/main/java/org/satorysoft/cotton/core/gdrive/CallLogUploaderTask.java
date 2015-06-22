@@ -97,7 +97,7 @@ public class CallLogUploaderTask extends APIAsyncTask<Void, Integer, List<Metada
                                     if(!metadata.isTrashed()){
                                         String title = metadata.getTitle();
                                         if(title.equals(context.getString(R.string.text_backup_call_log_name))){
-                                            backupCallLogFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), metadata.getDriveId());
+                                            driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), metadata.getDriveId());
                                             backupCallLogFolders.add(backupCallLogFolder);
                                         }
                                     }
@@ -105,7 +105,7 @@ public class CallLogUploaderTask extends APIAsyncTask<Void, Integer, List<Metada
 
                                 if(backupCallLogFolders.size() == 0){
                                     DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
-                                    backupCallLogFolder = createFolderWithName(context,
+                                    driveFolder = createFolderWithName(context,
                                             appFolder,
                                             context.getString(R.string.text_backup_call_log_name),
                                             Constants.CALL_LOG_FOLDER_ID);
@@ -114,7 +114,7 @@ public class CallLogUploaderTask extends APIAsyncTask<Void, Integer, List<Metada
                         });
             }
         } else {
-            backupCallLogFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedCallLogFolderId));
+            driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedCallLogFolderId));
         }
 
 
@@ -192,22 +192,24 @@ public class CallLogUploaderTask extends APIAsyncTask<Void, Integer, List<Metada
 
         if(!TextUtils.isEmpty(encodedDriveId)) {
 
-            DriveFolder.DriveFileResult fileResult = backupCallLogFolder.createFile(
-                    getGoogleApiClient(), originalMetadata, originalContents).await();
+            if(driveFolder != null){
+                DriveFolder.DriveFileResult fileResult = driveFolder.createFile(
+                        getGoogleApiClient(), originalMetadata, originalContents).await();
 
-            if (!fileResult.getStatus().isSuccess()) {
-                return null;
+                if (!fileResult.getStatus().isSuccess()) {
+                    return null;
+                }
+
+                DriveResource.MetadataResult metadataResult = fileResult.getDriveFile()
+                        .getMetadata(getGoogleApiClient())
+                        .await();
+
+                if (!metadataResult.getStatus().isSuccess()) {
+                    return null;
+                }
+
+                fileMetadataList.add(metadataResult.getMetadata());
             }
-
-            DriveResource.MetadataResult metadataResult = fileResult.getDriveFile()
-                    .getMetadata(getGoogleApiClient())
-                    .await();
-
-            if (!metadataResult.getStatus().isSuccess()) {
-                return null;
-            }
-
-            fileMetadataList.add(metadataResult.getMetadata());
         }
         return fileMetadataList;
     }
