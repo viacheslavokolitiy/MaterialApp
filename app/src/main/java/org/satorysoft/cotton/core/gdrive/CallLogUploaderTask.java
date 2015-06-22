@@ -161,24 +161,8 @@ public class CallLogUploaderTask extends APIAsyncTask<Void, Integer, List<Metada
 
         if(!TextUtils.isEmpty(encodedDriveId)) {
 
-            if(driveFolder != null){
-                DriveFolder.DriveFileResult fileResult = driveFolder.createFile(
-                        getGoogleApiClient(), originalMetadata, originalContents).await();
-
-                if (!fileResult.getStatus().isSuccess()) {
-                    return null;
-                }
-
-                DriveResource.MetadataResult metadataResult = fileResult.getDriveFile()
-                        .getMetadata(getGoogleApiClient())
-                        .await();
-
-                if (!metadataResult.getStatus().isSuccess()) {
-                    return null;
-                }
-
-                fileMetadataList.add(metadataResult.getMetadata());
-            }
+            if (uploadFileToDrive(fileMetadataList, originalContents, originalMetadata))
+                return null;
         }
         return fileMetadataList;
     }

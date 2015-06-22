@@ -12,8 +12,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
+import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.DriveResource;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataChangeSet;
 import com.google.android.gms.drive.query.Filters;
@@ -26,6 +28,7 @@ import org.satorysoft.cotton.di.module.GoogleDriveModule;
 import org.satorysoft.cotton.util.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -169,5 +172,27 @@ public abstract class APIAsyncTask<Params, Progress, Result>
         }
 
         return driveFolder;
+    }
+
+    protected boolean uploadFileToDrive(List<Metadata> fileMetadataList, DriveContents originalContents, MetadataChangeSet originalMetadata) {
+        if(driveFolder != null){
+            DriveFolder.DriveFileResult fileResult = driveFolder.createFile(
+                    getGoogleApiClient(), originalMetadata, originalContents).await();
+
+            if (!fileResult.getStatus().isSuccess()) {
+                return true;
+            }
+
+            DriveResource.MetadataResult metadataResult = fileResult.getDriveFile()
+                    .getMetadata(getGoogleApiClient())
+                    .await();
+
+            if (!metadataResult.getStatus().isSuccess()) {
+                return true;
+            }
+
+            fileMetadataList.add(metadataResult.getMetadata());
+        }
+        return false;
     }
 }
