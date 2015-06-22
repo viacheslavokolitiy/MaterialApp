@@ -78,15 +78,15 @@ public class MusicFileUploadTask extends APIAsyncTask<Void, Integer, List<Metada
                                     if(!metadata.isTrashed()){
                                         String title = metadata.getTitle();
                                         if(title.equals(context.getString(R.string.text_backup_music_folder_name))){
-                                            backupMusicFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), metadata.getDriveId());
-                                            backupMusicFolders.add(backupMusicFolder);
+                                            driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), metadata.getDriveId());
+                                            backupMusicFolders.add(driveFolder);
                                         }
                                     }
                                 }
 
                                 if(backupMusicFolders.size() == 0){
                                     DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
-                                    backupMusicFolder = createFolderWithName(context,
+                                    driveFolder = createFolderWithName(context,
                                             appFolder,
                                             context.getString(R.string.text_backup_music_folder_name),
                                             Constants.MUSIC_FOLDER_DRIVE_ID);
@@ -95,7 +95,7 @@ public class MusicFileUploadTask extends APIAsyncTask<Void, Integer, List<Metada
                         });
             }
         } else {
-            backupMusicFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedMusicFolderID));
+            driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedMusicFolderID));
         }
 
         for(String selectedFileURL : selectedFiles){
@@ -133,22 +133,24 @@ public class MusicFileUploadTask extends APIAsyncTask<Void, Integer, List<Metada
 
             if(!TextUtils.isEmpty(encodedDriveId)) {
 
-                DriveFolder.DriveFileResult fileResult = backupMusicFolder.createFile(
-                        getGoogleApiClient(), originalMetadata, originalContents).await();
+                if(driveFolder != null){
+                    DriveFolder.DriveFileResult fileResult = driveFolder.createFile(
+                            getGoogleApiClient(), originalMetadata, originalContents).await();
 
-                if (!fileResult.getStatus().isSuccess()) {
-                    return null;
+                    if (!fileResult.getStatus().isSuccess()) {
+                        return null;
+                    }
+
+                    DriveResource.MetadataResult metadataResult = fileResult.getDriveFile()
+                            .getMetadata(getGoogleApiClient())
+                            .await();
+
+                    if (!metadataResult.getStatus().isSuccess()) {
+                        return null;
+                    }
+
+                    fileMetadataList.add(metadataResult.getMetadata());
                 }
-
-                DriveResource.MetadataResult metadataResult = fileResult.getDriveFile()
-                        .getMetadata(getGoogleApiClient())
-                        .await();
-
-                if (!metadataResult.getStatus().isSuccess()) {
-                    return null;
-                }
-
-                fileMetadataList.add(metadataResult.getMetadata());
             }
         }
         return fileMetadataList;
