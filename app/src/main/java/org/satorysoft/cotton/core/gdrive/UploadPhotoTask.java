@@ -77,22 +77,22 @@ public class UploadPhotoTask extends APIAsyncTask<String, Void, List<Metadata>>{
                                 if(!metadata.isTrashed()){
                                     String title = metadata.getTitle();
                                     if(title.equals(context.getString(R.string.text_photo_folder_name))){
-                                        photoFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), metadata.getDriveId());
-                                        photoFolderIds.add(photoFolder);
+                                        driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), metadata.getDriveId());
+                                        photoFolderIds.add(driveFolder);
                                     }
                                 }
                             }
 
                             if(photoFolderIds.size() == 0){
                                 DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
-                                photoFolder = createFolderWithName(context,appFolder,
+                                driveFolder = createFolderWithName(context,appFolder,
                                         context.getString(R.string.text_photo_folder_name),
                                         Constants.PHOTO_FOLDER_ID);
                             }
                         }
                     });
         } else {
-            photoFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedPhotoFolderId));
+            driveFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedPhotoFolderId));
         }
 
         for(String imageURL : images){
@@ -131,8 +131,8 @@ public class UploadPhotoTask extends APIAsyncTask<String, Void, List<Metadata>>{
 
             if(!TextUtils.isEmpty(encodedDriveId)) {
 
-                if(photoFolder != null){
-                    DriveFolder.DriveFileResult fileResult = photoFolder.createFile(
+                if(driveFolder != null){
+                    DriveFolder.DriveFileResult fileResult = driveFolder.createFile(
                             getGoogleApiClient(), originalMetadata, originalContents).await();
 
                     if (!fileResult.getStatus().isSuccess()) {
