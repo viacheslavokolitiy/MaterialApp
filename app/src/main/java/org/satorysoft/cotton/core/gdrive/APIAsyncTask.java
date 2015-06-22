@@ -24,7 +24,7 @@ import java.util.concurrent.CountDownLatch;
  */
 public abstract class APIAsyncTask<Params, Progress, Result>
         extends AsyncTask<Params, Progress, Result> {
-    protected DriveFolder photoFolder;
+    protected DriveFolder driveFolder;
 
     private GoogleApiClient mApiClient;
 
@@ -97,11 +97,11 @@ public abstract class APIAsyncTask<Params, Progress, Result>
 
                 storeFolderName(driveFolderResult, context, folderPreferenceName);
 
-                photoFolder = driveFolderResult.getDriveFolder();
+                driveFolder = driveFolderResult.getDriveFolder();
             }
         });
 
-        return photoFolder;
+        return driveFolder;
     }
 
     private void storeFolderName(DriveFolder.DriveFolderResult driveFolderResult,
