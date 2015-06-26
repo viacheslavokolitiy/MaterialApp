@@ -26,11 +26,9 @@ import org.satorysoft.cotton.core.gdrive.UploadPhotoTask;
 import org.satorysoft.cotton.ui.fragment.HighRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.LowRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.MediumRiskAppsFragment;
-import org.satorysoft.cotton.ui.fragment.dialog.MusicFileListDialog;
+import org.satorysoft.cotton.ui.fragment.dialog.MediaFileListDialog;
+import org.satorysoft.cotton.util.FileUtils;
 import org.satorysoft.cotton.util.GoogleAuthChecker;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
@@ -104,11 +102,15 @@ public class ApplicationListActivity extends AppCompatActivity {
                             checkAuth();
                             if(isUserAuthenticated){
                                 FileFinder fileFinder = new FileFinder();
-                                fileFinder.findFilesWithExtension(getFileExtensionList());
+                                fileFinder.findFilesWithExtension(FileUtils.getFileExtensionList());
                             }
                             return false;
                         case BACKUP_MOVIES:
                             checkAuth();
+                            if(isUserAuthenticated){
+                                FileFinder fileFinder = new FileFinder();
+                                fileFinder.findFilesWithExtension(FileUtils.mediaFormats());
+                            }
                             return false;
                         case BACKUP_CONTACTS:
                             checkAuth();
@@ -199,16 +201,6 @@ public class ApplicationListActivity extends AppCompatActivity {
         materialViewPager.getViewPager().setCurrentItem(0);
     }
 
-    private List<String> getFileExtensionList(){
-        List<String> extensionList = new ArrayList<>();
-        extensionList.add("mp3");
-        extensionList.add("wav");
-        extensionList.add("wave");
-        extensionList.add("flac");
-
-        return extensionList;
-    }
-
     private void initiateCallLogBackup() {
         new CallLogUploaderTask(this).execute();
     }
@@ -233,7 +225,7 @@ public class ApplicationListActivity extends AppCompatActivity {
     }
 
     public void onEvent(FileFinder.MusicFileFoundEvent event){
-        MusicFileListDialog.newInstance(event.getFoundedMediaFiles()).show(getSupportFragmentManager(), "dialog");
+        MediaFileListDialog.newInstance(event.getFoundedMediaFiles()).show(getSupportFragmentManager(), "dialog");
     }
 
     public void onEvent(UploadPhotoTask.FileUploadFailedEvent event){

@@ -7,23 +7,28 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
+import org.apache.commons.io.FilenameUtils;
 import org.satorysoft.cotton.R;
+import org.satorysoft.cotton.core.gdrive.MovieFileUploadTask;
 import org.satorysoft.cotton.core.gdrive.MusicFileUploadTask;
-import org.satorysoft.cotton.core.gdrive.UploadPhotoTask;
 import org.satorysoft.cotton.util.Constants;
+import org.satorysoft.cotton.util.FileUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by viacheslavokolitiy on 16.06.2015.
  */
-public class MusicFileListDialog extends DialogFragment {
+public class MediaFileListDialog extends DialogFragment {
 
     private ArrayList<String> mSelectedItems;
+    private boolean needBackupMovies = false;
+    private boolean needBackupMusic = false;
 
-    public static MusicFileListDialog newInstance(LinkedHashMap<String, String> mediaFiles) {
+    public static MediaFileListDialog newInstance(LinkedHashMap<String, String> mediaFiles) {
         ArrayList<String> fileNames = new ArrayList<>();
         ArrayList<String> filePaths = new ArrayList<>();
         Bundle bundle = new Bundle();
@@ -37,7 +42,7 @@ public class MusicFileListDialog extends DialogFragment {
         bundle.putStringArrayList(Constants.MUSIC_FILE_NAME_LIST, fileNames);
         bundle.putStringArrayList(Constants.MUSIC_FILE_PATH_LIST, filePaths);
 
-        MusicFileListDialog musicFileListDialog = new MusicFileListDialog();
+        MediaFileListDialog musicFileListDialog = new MediaFileListDialog();
         musicFileListDialog.setArguments(bundle);
 
         return musicFileListDialog;
@@ -57,8 +62,7 @@ public class MusicFileListDialog extends DialogFragment {
         final String[] convertedData = fileNames.toArray(musicFileNames);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getActivity().getString(R.string.text_select_music_for_upload))
-        .setMultiChoiceItems(convertedData, null, new DialogInterface.OnMultiChoiceClickListener() {
+        builder.setMultiChoiceItems(convertedData, null, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which, boolean isChecked) {
                 if (isChecked) {
@@ -73,6 +77,23 @@ public class MusicFileListDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 if (mSelectedItems.size() > 0) {
+                    List<String> movieExtensions = FileUtils.mediaFormats();
+                    List<String> musicExtensions = FileUtils.getFileExtensionList();
+                    for (String item : mSelectedItems) {
+                        String extension = FilenameUtils.getExtension(item);
+                        if (movieExtensions.contains(extension)) {
+                            needBackupMovies = true;
+                            needBackupMusic = false;
+                        } else {
+                            needBackupMusic = true;
+                            needBackupMovies = false;
+                        }
+                    }
+                }
+
+                if (needBackupMovies && mSelectedItems.size() > 0) {
+                    initiateBackupMovies(mSelectedItems);
+                } else if (needBackupMusic && mSelectedItems.size() > 0) {
                     initiateBackupMusic(mSelectedItems);
                 }
             }
@@ -83,6 +104,10 @@ public class MusicFileListDialog extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    private void initiateBackupMovies(ArrayList<String> mSelectedItems) {
+        new MovieFileUploadTask(getActivity(), mSelectedItems).execute();
     }
 
     private void initiateBackupMusic(ArrayList<String> mSelectedItems) {
