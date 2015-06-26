@@ -32,7 +32,9 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="text_select_music_for_upload">Select music files for backup</string>
-    <string name="text_backup_music_in_progress">Backup music in progress... Please wait...</string>
+    <string name="text_backup_music_in_progress">Backup music in progress… Please wait…</string>
     <string name="music_upload_success_status">Selected files have been uploaded successfully</string>
     <string name="text_backup_music_folder_name">Music</string>
+    <string name="text_progressdialog_backup_movies">Backup movies… Please wait…</string>
+    <string name="text_movies_folder_name">Movies</string>
 </resources>

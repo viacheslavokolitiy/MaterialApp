@@ -43,6 +43,7 @@ public final class Constants {
     public static final String MUSIC_FILE_NAME_LIST = "music_file_name_list";
     public static final String MUSIC_FILE_PATH_LIST = "music_file_path_list";
     public static final String MUSIC_FOLDER_DRIVE_ID = "music_folder_id";
+    public static final String MOVIES_FOLDER_ID = "movies_folder_id";
 
 
     private Constants(){}
