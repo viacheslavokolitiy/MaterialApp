@@ -19,13 +19,13 @@ import org.satorysoft.cotton.ui.activity.ApplicationListActivity;
 import org.satorysoft.cotton.util.Constants;
 
 import butterknife.ButterKnife;
-import butterknife.FindView;
+import butterknife.Bind;
 
 /**
  * Created by viacheslavokolitiy on 08.06.2015.
  */
 public class ApplicationScanFragment extends Fragment implements ScanResultReceiver.Receiver{
-    @FindView(R.id.arc_progress_scan_apps)
+    @Bind(R.id.arc_progress_scan_apps)
     protected ArcProgress scanProgress;
     private ScanResultReceiver mReceiver;
 

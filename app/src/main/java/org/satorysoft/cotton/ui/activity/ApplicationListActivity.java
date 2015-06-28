@@ -30,8 +30,8 @@ import org.satorysoft.cotton.ui.fragment.dialog.MediaFileListDialog;
 import org.satorysoft.cotton.util.FileUtils;
 import org.satorysoft.cotton.util.GoogleAuthChecker;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.FindView;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -42,10 +42,9 @@ public class ApplicationListActivity extends AppCompatActivity {
     private static final int BACKUP_CALL_HISTORY = 1;
     private static final int BACKUP_MUSIC = 2;
     private static final int BACKUP_MOVIES = 3;
-    private static final int BACKUP_CONTACTS = 4;
-    private static final int SCHEDULED_BACKUP = 5;
-    private static final int RESTORE_DATA = 6;
-    @FindView(R.id.materialViewPager)
+    private static final int SCHEDULED_BACKUP = 4;
+    private static final int RESTORE_DATA = 5;
+    @Bind(R.id.materialViewPager)
     protected MaterialViewPager materialViewPager;
     private boolean isUserAuthenticated;
 
@@ -78,7 +77,6 @@ public class ApplicationListActivity extends AppCompatActivity {
                             new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_call_history)).withIcon(FontAwesome.Icon.faw_mobile_phone),
                             new PrimaryDrawerItem().withName(getString(R.string.text_backup_music)).withIcon(FontAwesome.Icon.faw_file_audio_o),
                             new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_movies)).withIcon(FontAwesome.Icon.faw_file_movie_o),
-                            new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_contacts)).withIcon(FontAwesome.Icon.faw_group),
                             new PrimaryDrawerItem().withName(getString(R.string.text_drawer_scheduled_backup)).withIcon(FontAwesome.Icon.faw_clock_o),
                             new PrimaryDrawerItem().withName(getString(R.string.text_drawer_restore)).withIcon(FontAwesome.Icon.faw_refresh)
                     ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -111,9 +109,6 @@ public class ApplicationListActivity extends AppCompatActivity {
                                 FileFinder fileFinder = new FileFinder();
                                 fileFinder.findFilesWithExtension(FileUtils.mediaFormats());
                             }
-                            return false;
-                        case BACKUP_CONTACTS:
-                            checkAuth();
                             return false;
                         case SCHEDULED_BACKUP:
                             checkAuth();

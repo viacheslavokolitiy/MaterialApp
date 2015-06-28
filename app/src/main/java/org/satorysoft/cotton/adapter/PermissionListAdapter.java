@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.FindView;
+import butterknife.Bind;
 
 /**
  * Created by viacheslavokolitiy on 09.06.2015.
@@ -42,7 +42,7 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
     }
 
     class PermissionListViewHolder extends RecyclerView.ViewHolder{
-        @FindView(R.id.permission_name)
+        @Bind(R.id.permission_name)
         protected RobotoTextView permissionNameView;
 
         public PermissionListViewHolder(View itemView) {

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.FindView;
+import butterknife.Bind;
 import butterknife.OnItemClick;
 import de.greenrobot.event.EventBus;
 
@@ -38,9 +38,9 @@ import de.greenrobot.event.EventBus;
  * Created by viacheslavokolitiy on 10.06.2015.
  */
 public class BackupPhotoActivity extends AppCompatActivity {
-    @FindView(R.id.toolbar_backup_photos)
+    @Bind(R.id.toolbar_backup_photos)
     protected Toolbar backupPhotoToolbar;
-    @FindView(R.id.photo_grid)
+    @Bind(R.id.photo_grid)
     protected GridView photoGrid;
 
     private AdapterComponent mAdapterComponent;

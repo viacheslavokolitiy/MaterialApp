@@ -30,7 +30,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import butterknife.FindView;
+import butterknife.Bind;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -75,9 +75,9 @@ public class ApplicationRiskAdapter extends RecyclerView.Adapter<ApplicationRisk
     }
 
     class AppListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @FindView(R.id.application_icon)
+        @Bind(R.id.application_icon)
         protected ImageView applicationLogo;
-        @FindView(R.id.text_application_name)
+        @Bind(R.id.text_application_name)
         protected RobotoTextView applicationTitle;
 
         public AppListViewHolder(View itemView) {

@@ -12,13 +12,13 @@ import org.satorysoft.cotton.ui.fragment.base.BaseApplicationListFragment;
 import org.satorysoft.cotton.util.Constants;
 
 import butterknife.ButterKnife;
-import butterknife.FindView;
+import butterknife.Bind;
 
 /**
  * Created by viacheslavokolitiy on 08.06.2015.
  */
 public class LowRiskAppsFragment extends BaseApplicationListFragment {
-    @FindView(R.id.recycler_low_risk_apps)
+    @Bind(R.id.recycler_low_risk_apps)
     protected RecyclerView lowRiskAppsRecycler;
     public static LowRiskAppsFragment newInstance() {
         return new LowRiskAppsFragment();

@@ -28,7 +28,7 @@ import org.satorysoft.cotton.util.Constants;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
-import butterknife.FindView;
+import butterknife.Bind;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
@@ -39,7 +39,7 @@ public class GoogleAuthActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,
                    GoogleApiClient.OnConnectionFailedListener {
     private static final int RESOLVE_CONNECTION_REQUEST_CODE = 1500;
-    @FindView(R.id.btn_signup_gdrive)
+    @Bind(R.id.btn_signup_gdrive)
     protected RobotoButton authButton;
     private GoogleApiClient mGoogleAPIClient;
     private ArrayList<String> appFolders = new ArrayList<>();

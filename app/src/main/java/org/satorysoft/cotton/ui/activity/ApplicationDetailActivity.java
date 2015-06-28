@@ -49,7 +49,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.FindView;
+import butterknife.Bind;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import me.drakeet.materialdialog.MaterialDialog;
@@ -58,7 +58,7 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by viacheslavokolitiy on 09.06.2015.
  */
 public class ApplicationDetailActivity extends AppCompatActivity implements IDrawableStateManager {
-    @FindView(R.id.activity_app_details_bar)
+    @Bind(R.id.activity_app_details_bar)
     protected Toolbar applicationDetailToolbar;
     private PermissionComponent mPermissionComponent;
     private PackageManager mPackageManager;
@@ -66,15 +66,15 @@ public class ApplicationDetailActivity extends AppCompatActivity implements IDra
     private ViewsComponent mViewsComponent;
     private MaterialDialog materialDialog;
 
-    @FindView(R.id.application_icon_detail)
+    @Bind(R.id.application_icon_detail)
     protected ImageView applicationLogo;
-    @FindView(R.id.text_application_name_detail)
+    @Bind(R.id.text_application_name_detail)
     protected RobotoTextView applicationName;
-    @FindView(R.id.recycler_permissions)
+    @Bind(R.id.recycler_permissions)
     protected RecyclerView recyclerView;
-    @FindView(R.id.btn_trust_application)
+    @Bind(R.id.btn_trust_application)
     protected RobotoButton trustButton;
-    @FindView(R.id.btn_delete_application)
+    @Bind(R.id.btn_delete_application)
     protected RobotoButton deleteButton;
 
     @Override
