@@ -37,4 +37,9 @@
     <string name="text_backup_music_folder_name">Music</string>
     <string name="text_progressdialog_backup_movies">Backup movies… Please wait…</string>
     <string name="text_movies_folder_name">Movies</string>
+    <string name="text_restore_data_dialog_title">Select data for restore</string>
+    <string name="text_toolbar_restore_photos">Restore photos</string>
+    <string-array name="restore_items">
+        <item>Photos</item>
+    </string-array>
 </resources>

@@ -40,6 +40,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarTheme"/>
 
+        <activity android:name=".ui.activity.RestorePhotosActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarTheme"/>
+
         <provider
             android:authorities="org.satorysoft.cotton"
             android:exported="false"

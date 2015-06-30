@@ -1,5 +1,6 @@
 package org.satorysoft.cotton.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
@@ -18,11 +21,15 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import org.satorysoft.cotton.MainActivity;
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.ApplicationRiskAdapter;
 import org.satorysoft.cotton.core.FileFinder;
 import org.satorysoft.cotton.core.gdrive.CallLogUploaderTask;
 import org.satorysoft.cotton.core.gdrive.UploadPhotoTask;
+import org.satorysoft.cotton.di.component.DaggerViewsComponent;
+import org.satorysoft.cotton.di.component.ViewsComponent;
+import org.satorysoft.cotton.di.module.ViewsModule;
 import org.satorysoft.cotton.ui.fragment.HighRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.LowRiskAppsFragment;
 import org.satorysoft.cotton.ui.fragment.MediumRiskAppsFragment;
@@ -30,9 +37,14 @@ import org.satorysoft.cotton.ui.fragment.dialog.MediaFileListDialog;
 import org.satorysoft.cotton.util.FileUtils;
 import org.satorysoft.cotton.util.GoogleAuthChecker;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by viacheslavokolitiy on 08.06.2015.
@@ -44,9 +56,12 @@ public class ApplicationListActivity extends AppCompatActivity {
     private static final int BACKUP_MOVIES = 3;
     private static final int SCHEDULED_BACKUP = 4;
     private static final int RESTORE_DATA = 5;
+    private static final int RESTORE_PHOTOS = 0;
     @Bind(R.id.materialViewPager)
     protected MaterialViewPager materialViewPager;
     private boolean isUserAuthenticated;
+    private ViewsComponent mUiComponent;
+    private MaterialDialog materialDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +69,9 @@ public class ApplicationListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_application_list);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+
+        this.mUiComponent = DaggerViewsComponent.builder().viewsModule(new ViewsModule(this)).build();
+        this.materialDialog = mUiComponent.getMaterialDialog();
 
         Toolbar toolbar = materialViewPager.getToolbar();
 
@@ -115,6 +133,27 @@ public class ApplicationListActivity extends AppCompatActivity {
                             return false;
                         case RESTORE_DATA:
                             checkAuth();
+                            if(isUserAuthenticated){
+                                final Context localContext = ApplicationListActivity.this;
+                                ListView listView = new ListView(ApplicationListActivity.this);
+                                String[] listItems = getResources().getStringArray(R.array.restore_items);
+                                List<String> restoreItems = Arrays.asList(listItems);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(localContext, android.R.layout.simple_list_item_1, restoreItems);
+                                listView.setAdapter(adapter);
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                                        switch(position){
+                                            case RESTORE_PHOTOS:
+                                                startRestorePhotosActivity();
+                                                break;
+                                        }
+                                    }
+                                });
+                                materialDialog.setTitle(getString(R.string.text_restore_data_dialog_title));
+                                materialDialog.setContentView(listView);
+                                materialDialog.show();
+                            }
                             return false;
                         default:
                             return false;
@@ -194,6 +233,10 @@ public class ApplicationListActivity extends AppCompatActivity {
         materialViewPager.getViewPager().setOffscreenPageLimit(materialViewPager.getViewPager().getAdapter().getCount());
         materialViewPager.getPagerTitleStrip().setViewPager(materialViewPager.getViewPager());
         materialViewPager.getViewPager().setCurrentItem(0);
+    }
+
+    private void startRestorePhotosActivity() {
+        startActivity(new Intent(ApplicationListActivity.this, RestorePhotosActivity.class));
     }
 
     private void initiateCallLogBackup() {

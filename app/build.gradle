@@ -35,7 +35,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.+'
     compile 'com.android.support:cardview-v7:22.+'
     compile 'javax.annotation:jsr250-api:1.0'
-    compile 'com.jakewharton:butterknife:7.0.0-SNAPSHOT'
+    compile 'com.jakewharton:butterknife:7.0.1-SNAPSHOT'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
     compile 'com.github.provigen:ProviGen-lib:2.0.+'

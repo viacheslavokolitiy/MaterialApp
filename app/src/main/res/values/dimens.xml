@@ -45,4 +45,5 @@
     <dimen name="perm_item_corner_radius">10dp</dimen>
     <dimen name="trust_btn_text_size">14sp</dimen>
     <dimen name="delete_button_text_size">14sp</dimen>
+    <dimen name="restore_item_text_size">18sp</dimen>
 </resources>
